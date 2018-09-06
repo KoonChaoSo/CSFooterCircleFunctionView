@@ -31,7 +31,7 @@
     [self addSubview:self.imageView];
 }
 
-#pragma mark - WSScrollViewFooterCircleFunctionSubviewProtocol
+#pragma mark - CSScrollViewFooterCircleFunctionSubviewProtocol
 + (UIView <CSFooterCircleSubviewProtocol> *)setupSubviewWithSuperView:(UIView *)superview
 {
     CSFotterCircleScrollToTopSubview *subview = [[CSFotterCircleScrollToTopSubview alloc] initWithFrame:superview.bounds];

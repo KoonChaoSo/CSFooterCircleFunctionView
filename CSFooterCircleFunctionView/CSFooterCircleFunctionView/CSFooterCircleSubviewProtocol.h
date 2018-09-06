@@ -14,7 +14,6 @@ typedef enum : NSUInteger {
 
 
 @protocol CSFooterCircleSubviewProtocol <NSObject>
-//typedef void(^WSCircleFunctionSubviewsActionCompletion)(WSScrollViewFotterCircleFunctionType type,UIView <WSScrollViewFotterCircleFunctionSubviewsProtocol>* view);
 typedef void(^CSCircleFunctionSubviewsAnimationCompletion)(void);
 
 @required
