@@ -19,9 +19,14 @@
 @end
 
 @implementation CSFooterCircleFunctionView
-- (void)dealloc
+
+- (void)willMoveToSuperview:(UIView *)newSuperview
 {
-    [self removeObserver:self forKeyPath:@"weakTableView.contentOffset"];
+    [super willMoveToSuperview:newSuperview];
+    if (newSuperview && ![newSuperview isKindOfClass:[UIScrollView class]]) return;
+    
+    if (!newSuperview)
+        [self.weakTableView removeObserver:self forKeyPath:@"contentOffset" context:nil];
 }
 
 - (instancetype)initWithTypes:(NSArray *)types
@@ -216,7 +221,7 @@
 #pragma mark - KVO
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context
 {
-    if ([keyPath isEqualToString:@"weakTableView.contentOffset"]) {
+    if ([keyPath isEqualToString:@"contentOffset"]) {
         CGPoint contentOffset = [change[NSKeyValueChangeNewKey] CGPointValue];
         if (contentOffset.y <= 5)
         {
@@ -279,7 +284,9 @@
 - (void)setWeakTableView:(UITableView *)weakTableView
 {
     _weakTableView = weakTableView;
-    [self addObserver:self forKeyPath:@"weakTableView.contentOffset" options:NSKeyValueObservingOptionNew context:nil];
+    
+    NSKeyValueObservingOptions options = NSKeyValueObservingOptionNew;
+    [_weakTableView addObserver:self forKeyPath:@"contentOffset" options:options context:nil];
     
     __weak __typeof(self)weakSelf = self;
     _weakTableView.stopScrollBlock = ^(UIScrollView *view) {
