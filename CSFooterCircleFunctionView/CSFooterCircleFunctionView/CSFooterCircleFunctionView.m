@@ -14,7 +14,7 @@
 
 @property (strong, nonatomic) UIView *customContainerView;
 @property (copy, nonatomic) NSDictionary *circleSubviewDic; //存储的类型和view
-@property (assign, nonatomic) WSScrollViewFotterCircleFunctionType onShowType; // 正在显示的状态
+@property (assign, nonatomic) CSScrollViewFotterCircleFunctionType onShowType; // 正在显示的状态
 @property (assign, nonatomic) CGFloat currentY;
 @end
 
@@ -57,7 +57,7 @@
     NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
     for (NSNumber *typeNum in types)
     {
-        UIView *subview = [self _setupSubviewWithSuperview:self.customContainerView type:(WSScrollViewFotterCircleFunctionType)typeNum.integerValue];
+        UIView *subview = [self _setupSubviewWithSuperview:self.customContainerView type:(CSScrollViewFotterCircleFunctionType)typeNum.integerValue];
         [self.customContainerView addSubview:subview];
         dic[typeNum] = subview;
     }
@@ -66,7 +66,7 @@
 }
 
 
-- (UIView <CSFooterCircleSubviewProtocol>*)_setupSubviewWithSuperview:(UIView *)superview type:(WSScrollViewFotterCircleFunctionType)type
+- (UIView <CSFooterCircleSubviewProtocol>*)_setupSubviewWithSuperview:(UIView *)superview type:(CSScrollViewFotterCircleFunctionType)type
 {
     switch (type) {
         case CSScrollViewFotterCircleScrolToTopType:
@@ -102,13 +102,13 @@
     }
 }
 
-- (UIView <CSFooterCircleSubviewProtocol>*)_getSubViewWithType:(WSScrollViewFotterCircleFunctionType)type
+- (UIView <CSFooterCircleSubviewProtocol>*)_getSubViewWithType:(CSScrollViewFotterCircleFunctionType)type
 {
     return self.circleSubviewDic[@(type)];
 }
 
 #pragma mark - Public
-- (void)showWithType:(WSScrollViewFotterCircleFunctionType)type
+- (void)showWithType:(CSScrollViewFotterCircleFunctionType)type
 {
     if (self.alpha == 0)
     {

@@ -10,7 +10,7 @@
 typedef enum : NSUInteger {
     CSScrollViewFotterCircleScrolToTopType = 0, //置顶功能
     CSScrollViewFotterCircleShowSrcollIndexType, //显示第几个功能
-} WSScrollViewFotterCircleFunctionType;
+} CSScrollViewFotterCircleFunctionType;
 
 
 @protocol CSFooterCircleSubviewProtocol <NSObject>

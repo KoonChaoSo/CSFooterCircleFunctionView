@@ -57,11 +57,11 @@
         _footerCircleView = [[CSFooterCircleFunctionView alloc] initWithTypes:@[@(CSScrollViewFotterCircleShowSrcollIndexType),@(CSScrollViewFotterCircleScrolToTopType)]];
         _footerCircleView.weakTableView = self.tableView;
         __weak __typeof(self)weakSelf = self;
-        _footerCircleView.showIndexCompletion = ^(WSScrollViewFotterCircleFunctionType type, UIView<CSFooterCircleSubviewProtocol> *subview, NSUInteger index) {
+        _footerCircleView.showIndexCompletion = ^(CSScrollViewFotterCircleFunctionType type, UIView<CSFooterCircleSubviewProtocol> *subview, NSUInteger index) {
             __strong __typeof(weakSelf)strongSelf = weakSelf;
             [strongSelf.footerCircleView showIndexViewWithIndex:[NSString stringWithFormat:@"%lu",(unsigned long)index] total:@"50"];
         };
-        _footerCircleView.actionCompletion = ^(WSScrollViewFotterCircleFunctionType type, UIView<CSFooterCircleSubviewProtocol> *subview) {
+        _footerCircleView.actionCompletion = ^(CSScrollViewFotterCircleFunctionType type, UIView<CSFooterCircleSubviewProtocol> *subview) {
             __strong __typeof(weakSelf)strongSelf = weakSelf;
             [strongSelf.tableView setContentOffset:CGPointMake(1, 1) animated:YES];
         };
