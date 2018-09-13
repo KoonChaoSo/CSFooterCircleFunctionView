@@ -40,8 +40,7 @@
 
 ``` 
 3. 未来计划
-1、manager需要提供知道向上、向下、停止信号。
-2、manager提供一系列的protocol，让自定义view来添加到manager。
-2、manager提供一系列的protocol
-3、直接给外面自定义view添加到manager
+* manager需要提供知道向上、向下、停止信号。
+* manager提供一系列的protocol，让自定义view来添加到manager。
+* 直接给外面自定义view添加到manager
 
