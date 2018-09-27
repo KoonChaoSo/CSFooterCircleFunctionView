@@ -7,23 +7,55 @@
 //
 
 #import <Foundation/Foundation.h>
-typedef enum : NSUInteger {
-    CSScrollViewFotterCircleScrolToTopType = 0, //置顶功能
-    CSScrollViewFotterCircleShowSrcollIndexType, //显示第几个功能
-} CSScrollViewFotterCircleFunctionType;
-
+@class CSFooterCircleFunctionView;
 
 @protocol CSFooterCircleSubviewProtocol <NSObject>
 typedef void(^CSCircleFunctionSubviewsAnimationCompletion)(void);
 
 @required
 + (UIView <CSFooterCircleSubviewProtocol>*)setupSubviewWithSuperView:(UIView *)superview;
+//
+//- (void)showAnimation:(BOOL)animated completion:(CSCircleFunctionSubviewsAnimationCompletion)completion;
+//
+//- (void)hideAnimation:(BOOL)animated completion:(CSCircleFunctionSubviewsAnimationCompletion)completion;
+//
 
-- (void)showAnimation:(BOOL)animated completion:(CSCircleFunctionSubviewsAnimationCompletion)completion;
+//@optional
+//- (void)setIndex:(NSString *)index total:(NSString *)total;
 
-- (void)hideAnimation:(BOOL)animated completion:(CSCircleFunctionSubviewsAnimationCompletion)completion;
 
+//new delegate
+
+
+/**
+ subview是否显示高亮
+
+ @param isHighlighted 
+ */
 - (void)setHighlighted:(BOOL)isHighlighted;
-@optional
-- (void)setIndex:(NSString *)index total:(NSString *)total;
+/**
+ 父tableview控件向上滑动
+
+ @param view CSFooterCircleFunctionView
+ @param index 滑动时候显示的cell的index
+ @param total 滑动时候显示的cell的总共的数量
+ */
+- (void)tableViewScrollUp:(CSFooterCircleFunctionView *)view index:(NSInteger)index;
+
+/**
+ 父tableview控件向下滑动
+ 
+ @param view CSFooterCircleFunctionView
+ @param index 滑动时候显示的cell的index
+ @param total 滑动时候显示的cell的总共的数量
+ */
+- (void)tableViewScrollDown:(CSFooterCircleFunctionView *)view index:(NSInteger)index;
+
+/**
+ 父tableview控件停止滑动
+ 
+ @param view CSFooterCircleFunctionView
+ */
+- (void)tableViewScrollStop:(CSFooterCircleFunctionView *)view;
+
 @end

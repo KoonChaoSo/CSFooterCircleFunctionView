@@ -7,14 +7,12 @@
 //
 
 #import "CSFooterCircleFunctionView.h"
-#import "CSFotterCircleScrollToTopSubview.h"
-#import "CSFotterCircleShowSrcollIndexTypeSubview.h"
 #import "CSFooterCircleFunctionTool.h"
 @interface CSFooterCircleFunctionView()
 
 @property (strong, nonatomic) UIView *customContainerView;
 @property (copy, nonatomic) NSDictionary *circleSubviewDic; //存储的类型和view
-@property (assign, nonatomic) CSScrollViewFotterCircleFunctionType onShowType; // 正在显示的状态
+@property (strong, nonatomic) NSString *onShowView; // 正在显示的状态
 @property (assign, nonatomic) CGFloat currentY;
 @end
 
@@ -29,19 +27,19 @@
         [self.weakTableView removeObserver:self forKeyPath:@"contentOffset" context:nil];
 }
 
-- (instancetype)initWithTypes:(NSArray *)types
+- (instancetype)initWithSubViews:(NSArray<CSFooterCircleSubviewProtocol> *)subViews
 {
     self = [super initWithFrame:CGRectMake(0, 0, 45, 45)];
     if (self)
     {
-        [self _setup:types];
+        [self _setup:subViews];
     }
     return self;
 }
 
 #pragma mark - Private
 
-- (void)_setup:(NSArray *)types
+- (void)_setup:(NSArray<CSFooterCircleSubviewProtocol> *)subViews
 {
     //先设置自己
     self.backgroundColor = [UIColor clearColor];
@@ -55,128 +53,48 @@
     [self addSubview:self.customContainerView];
     
     NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
-    for (NSNumber *typeNum in types)
+    for (UIView<CSFooterCircleSubviewProtocol> *view in subViews)
     {
-        UIView *subview = [self _setupSubviewWithSuperview:self.customContainerView type:(CSScrollViewFotterCircleFunctionType)typeNum.integerValue];
-        [self.customContainerView addSubview:subview];
-        dic[typeNum] = subview;
+        [self.customContainerView addSubview:view];
+        self.onShowView = NSStringFromClass(view.class);
+        dic[NSStringFromClass(view.class)] = view;
     }
-    
     self.circleSubviewDic = dic.copy;
 }
 
 
-- (UIView <CSFooterCircleSubviewProtocol>*)_setupSubviewWithSuperview:(UIView *)superview type:(CSScrollViewFotterCircleFunctionType)type
+- (UIView <CSFooterCircleSubviewProtocol>*)_getSubViewWithClassName:(NSString *)className
 {
-    switch (type) {
-        case CSScrollViewFotterCircleScrolToTopType:
-            {
-                //初始化 scroltotop
-                UIView <CSFooterCircleSubviewProtocol>*subview = [CSFotterCircleScrollToTopSubview setupSubviewWithSuperView:superview];
-                subview.userInteractionEnabled = YES;
-                UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onClickSubview:)];
-                gesture.numberOfTapsRequired = 1;
-                gesture.numberOfTouchesRequired = 1;
-                [subview addGestureRecognizer:gesture];
-                self.onShowType = type;
-                return subview;
-            }
-            break;
-        case CSScrollViewFotterCircleShowSrcollIndexType:
-        {
-            //初始化 indexType
-            //初始化 scroltotop
-            UIView <CSFooterCircleSubviewProtocol>*subview = [CSFotterCircleShowSrcollIndexTypeSubview setupSubviewWithSuperView:superview];
-            subview.userInteractionEnabled = YES;
-            UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onClickSubview:)];
-            gesture.numberOfTapsRequired = 1;
-            gesture.numberOfTouchesRequired = 1;
-            [subview addGestureRecognizer:gesture];
-            self.onShowType = type;
-            return subview;
-        }
-            break;
-            
-        default:
-            break;
-    }
+    return self.circleSubviewDic[className];
 }
 
-- (UIView <CSFooterCircleSubviewProtocol>*)_getSubViewWithType:(CSScrollViewFotterCircleFunctionType)type
-{
-    return self.circleSubviewDic[@(type)];
-}
 
 #pragma mark - Public
-- (void)showWithType:(CSScrollViewFotterCircleFunctionType)type
+- (void)showWithViewName:(NSString *)viewName
 {
-    if (self.alpha == 0)
-    {
-        [UIView animateWithDuration:0.2 animations:^{
-            self.alpha = 1;
-        }];
-    }
     if (self.hidden == YES)
     {
         self.hidden = NO;
     }
-    for (NSNumber *typeNum in self.circleSubviewDic.allKeys)
-    {
-        UIView <CSFooterCircleSubviewProtocol>* view = [self _getSubViewWithType:typeNum.integerValue];
-        if (typeNum.integerValue == type)
-        {
-            [self.customContainerView bringSubviewToFront:view];
-            [view showAnimation:YES completion:^{
-            }];
-            self.onShowType = type;
-        }
-        else
-        {
-            [view hideAnimation:NO completion:^{
-            }];
-        }
-    }
+    [self bringSubviewToFront:[self _getSubViewWithClassName:viewName]];
 }
 
 - (void)hide
 {
-    [UIView animateWithDuration:0.2 animations:^{
-        self.alpha = 0;
-    } completion:^(BOOL finished) {
+    if (self.hidden == NO)
+    {
         self.hidden = YES;
-    }];
-}
-
-- (void)showIndexViewWithIndex:(NSString *)index total:(NSString *)total
-{
-    if (self.alpha == 0)
-    {
-        [UIView animateWithDuration:0.2 animations:^{
-            self.alpha = 1;
-        }];
-    }
-    if (self.hidden == YES)
-    {
-        self.hidden = NO;
-    }
-    
-    UIView <CSFooterCircleSubviewProtocol>* subview = [self _getSubViewWithType:CSScrollViewFotterCircleShowSrcollIndexType];
-
-    [self showWithType:CSScrollViewFotterCircleShowSrcollIndexType];
-    if ([subview respondsToSelector:@selector(setIndex:total:)])
-    {
-        [subview setIndex:index total:total];
     }
 }
 
 #pragma mark - Action
 - (void)onClickSubview:(id)sender
 {
-    UIGestureRecognizer *gestureRecognizer = (UIGestureRecognizer *)sender;
-    if (self.actionCompletion)
-    {
-        self.actionCompletion(self.onShowType, (UIView <CSFooterCircleSubviewProtocol>*)gestureRecognizer.view);
-    }
+//    UIGestureRecognizer *gestureRecognizer = (UIGestureRecognizer *)sender;
+//    if (self.actionCompletion)
+//    {
+//        self.actionCompletion(self.onShowType, (UIView <CSFooterCircleSubviewProtocol>*)gestureRecognizer.view);
+//    }
 }
 
 #pragma mark - Touch Event
@@ -221,6 +139,7 @@
 #pragma mark - KVO
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context
 {
+    //监听tablview上下滑动
     if ([keyPath isEqualToString:@"contentOffset"]) {
         CGPoint contentOffset = [change[NSKeyValueChangeNewKey] CGPointValue];
         if (contentOffset.y <= 5)
@@ -236,11 +155,10 @@
             {
                 if (lastVisibleRow.row +1 > 0)
                 {
-                    if (self.showIndexCompletion && [self.circleSubviewDic.allKeys containsObject:@(CSScrollViewFotterCircleShowSrcollIndexType)])
+                    UIView <CSFooterCircleSubviewProtocol>* subView = [self _getSubViewWithType:self.onShowType];
+                    if ([subView respondsToSelector:@selector(tableViewScrollUp:index:)])
                     {
-                        self.showIndexCompletion(CSScrollViewFotterCircleShowSrcollIndexType,
-                                                 [self _getSubViewWithType:CSScrollViewFotterCircleShowSrcollIndexType],
-                                                 lastVisibleRow.row + 1);
+                        [subView tableViewScrollUp:self index:lastVisibleRow.row + 1];
                     }
                 }
             }
@@ -255,11 +173,10 @@
             {
                 if (lastVisibleRow.row +1 > 0)
                 {
-                    if (self.showIndexCompletion && [self.circleSubviewDic.allKeys containsObject:@(CSScrollViewFotterCircleShowSrcollIndexType)])
+                    UIView <CSFooterCircleSubviewProtocol>* subView = [self _getSubViewWithType:self.onShowType];
+                    if ([subView respondsToSelector:@selector(tableViewScrollDown:index:)])
                     {
-                        self.showIndexCompletion(CSScrollViewFotterCircleShowSrcollIndexType,
-                                                 [self _getSubViewWithType:CSScrollViewFotterCircleShowSrcollIndexType],
-                                                 lastVisibleRow.row + 1);
+                        [subView tableViewScrollDown:self index:lastVisibleRow.row + 1];
                     }
                 }
             }
@@ -291,7 +208,11 @@
     __weak __typeof(self)weakSelf = self;
     _weakTableView.stopScrollBlock = ^(UIScrollView *view) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
-        [strongSelf showWithType:CSScrollViewFotterCircleScrolToTopType];
+        UIView <CSFooterCircleSubviewProtocol>* subView = [strongSelf _getSubViewWithType:strongSelf.onShowType];
+        if ([subView respondsToSelector:@selector(tableViewScrollDown:index:)])
+        {
+            [subView tableViewScrollStop:strongSelf];
+        }
     };
 }
 @end

@@ -43,16 +43,6 @@
     return self;
 }
 
-- (void)setIndex:(NSString *)index total:(NSString *)total
-{
-    _indexLabel.text = [NSString stringWithFormat:@"%@",index];
-    [_indexLabel sizeToFit];
-    _indexLabel.center = CGPointMake(_bgView.center.x, _bgView.center.y - 10);
-    
-    _totlaLabel.text = [NSString stringWithFormat:@"%@",total];
-    [_totlaLabel sizeToFit];
-    _totlaLabel.center = CGPointMake(_bgView.center.x, _bgView.center.y + 10);
-}
 
 - (void)setHighlighted:(BOOL)isHighlighted
 {
@@ -109,6 +99,20 @@
     CSFotterCircleShowSrcollIndexTypeSubview *subview = [[CSFotterCircleShowSrcollIndexTypeSubview alloc] initWithFrame:superview.bounds];
     [subview setHighlighted:NO];
     return subview;
+}
+
+- (void)tableViewScrollDown:(CSFooterCircleFunctionView *)view index:(NSInteger)index {
+    
+}
+
+
+- (void)tableViewScrollStop:(CSFooterCircleFunctionView *)view {
+    <#code#>
+}
+
+
+- (void)tableViewScrollUp:(CSFooterCircleFunctionView *)view index:(NSInteger)index {
+    <#code#>
 }
 
 

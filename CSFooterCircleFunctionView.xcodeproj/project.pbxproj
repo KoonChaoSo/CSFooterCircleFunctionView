@@ -16,7 +16,6 @@
 		A17303BC2133B9E3007E4713 /* CSFooterCircleFunctionViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A17303BB2133B9E3007E4713 /* CSFooterCircleFunctionViewTests.m */; };
 		A17303C72133B9E3007E4713 /* CSFooterCircleFunctionViewUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = A17303C62133B9E3007E4713 /* CSFooterCircleFunctionViewUITests.m */; };
 		A17303DF2133BA02007E4713 /* CSFooterCircleFunctionView.m in Sources */ = {isa = PBXBuildFile; fileRef = A17303D92133BA02007E4713 /* CSFooterCircleFunctionView.m */; };
-		A17303E02133BA02007E4713 /* CSFotterCircleScrollToTopSubview.m in Sources */ = {isa = PBXBuildFile; fileRef = A17303DB2133BA02007E4713 /* CSFotterCircleScrollToTopSubview.m */; };
 		A17303E12133BA02007E4713 /* CSFotterCircleShowSrcollIndexTypeSubview.m in Sources */ = {isa = PBXBuildFile; fileRef = A17303DD2133BA02007E4713 /* CSFotterCircleShowSrcollIndexTypeSubview.m */; };
 		A17303E42133BF80007E4713 /* CSFooterCircleFunctionTool.m in Sources */ = {isa = PBXBuildFile; fileRef = A17303E32133BF80007E4713 /* CSFooterCircleFunctionTool.m */; };
 		A17303E72133C01E007E4713 /* UIScrollView+CSFooterCircleFuntionExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = A17303E62133C01E007E4713 /* UIScrollView+CSFooterCircleFuntionExtension.m */; };
@@ -59,8 +58,6 @@
 		A17303D72133BA02007E4713 /* CSFooterCircleSubviewProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFooterCircleSubviewProtocol.h; sourceTree = "<group>"; };
 		A17303D82133BA02007E4713 /* CSFooterCircleFunctionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFooterCircleFunctionView.h; sourceTree = "<group>"; };
 		A17303D92133BA02007E4713 /* CSFooterCircleFunctionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSFooterCircleFunctionView.m; sourceTree = "<group>"; };
-		A17303DA2133BA02007E4713 /* CSFotterCircleScrollToTopSubview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFotterCircleScrollToTopSubview.h; sourceTree = "<group>"; };
-		A17303DB2133BA02007E4713 /* CSFotterCircleScrollToTopSubview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSFotterCircleScrollToTopSubview.m; sourceTree = "<group>"; };
 		A17303DC2133BA02007E4713 /* CSFotterCircleShowSrcollIndexTypeSubview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFotterCircleShowSrcollIndexTypeSubview.h; sourceTree = "<group>"; };
 		A17303DD2133BA02007E4713 /* CSFotterCircleShowSrcollIndexTypeSubview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSFotterCircleShowSrcollIndexTypeSubview.m; sourceTree = "<group>"; };
 		A17303E22133BF80007E4713 /* CSFooterCircleFunctionTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CSFooterCircleFunctionTool.h; sourceTree = "<group>"; };
@@ -94,6 +91,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A10B49E4215CDFEB005D032F /* SubViews */ = {
+			isa = PBXGroup;
+			children = (
+				A17303DC2133BA02007E4713 /* CSFotterCircleShowSrcollIndexTypeSubview.h */,
+				A17303DD2133BA02007E4713 /* CSFotterCircleShowSrcollIndexTypeSubview.m */,
+			);
+			path = SubViews;
+			sourceTree = "<group>";
+		};
 		A17303962133B9E1007E4713 = {
 			isa = PBXGroup;
 			children = (
@@ -152,13 +158,10 @@
 		A17303D42133BA02007E4713 /* CSFooterCircleFunctionView */ = {
 			isa = PBXGroup;
 			children = (
+				A10B49E4215CDFEB005D032F /* SubViews */,
 				A17303D72133BA02007E4713 /* CSFooterCircleSubviewProtocol.h */,
 				A17303D82133BA02007E4713 /* CSFooterCircleFunctionView.h */,
 				A17303D92133BA02007E4713 /* CSFooterCircleFunctionView.m */,
-				A17303DA2133BA02007E4713 /* CSFotterCircleScrollToTopSubview.h */,
-				A17303DB2133BA02007E4713 /* CSFotterCircleScrollToTopSubview.m */,
-				A17303DC2133BA02007E4713 /* CSFotterCircleShowSrcollIndexTypeSubview.h */,
-				A17303DD2133BA02007E4713 /* CSFotterCircleShowSrcollIndexTypeSubview.m */,
 				A17303E22133BF80007E4713 /* CSFooterCircleFunctionTool.h */,
 				A17303E32133BF80007E4713 /* CSFooterCircleFunctionTool.m */,
 				A17303E52133C01E007E4713 /* UIScrollView+CSFooterCircleFuntionExtension.h */,
@@ -301,7 +304,6 @@
 				A17303E42133BF80007E4713 /* CSFooterCircleFunctionTool.m in Sources */,
 				A17303E72133C01E007E4713 /* UIScrollView+CSFooterCircleFuntionExtension.m in Sources */,
 				A17303B22133B9E3007E4713 /* main.m in Sources */,
-				A17303E02133BA02007E4713 /* CSFotterCircleScrollToTopSubview.m in Sources */,
 				A17303A42133B9E1007E4713 /* AppDelegate.m in Sources */,
 				A17303DF2133BA02007E4713 /* CSFooterCircleFunctionView.m in Sources */,
 				A17303E12133BA02007E4713 /* CSFotterCircleShowSrcollIndexTypeSubview.m in Sources */,

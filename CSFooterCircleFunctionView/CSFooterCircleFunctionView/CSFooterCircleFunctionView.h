@@ -18,9 +18,8 @@ typedef void(^CSShowIndexCompletion)(CSScrollViewFotterCircleFunctionType type,U
 @property (copy, nonatomic) CSShowIndexCompletion showIndexCompletion;
 @property (weak, nonatomic) UITableView *weakTableView;
 
-- (instancetype)initWithTypes:(NSArray *)types;
-- (void)showWithType:(CSScrollViewFotterCircleFunctionType)type;
+- (instancetype)initWithSubViews:(NSArray<CSFooterCircleSubviewProtocol> *)subViews;
+- (void)showWithViewName:(NSString *)viewName;
 - (void)hide;
 
-- (void)showIndexViewWithIndex:(NSString *)index total:(NSString *)total;
 @end
