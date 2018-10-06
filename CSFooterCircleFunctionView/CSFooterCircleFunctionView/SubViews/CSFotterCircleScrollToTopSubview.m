@@ -20,15 +20,12 @@
     self = [super initWithFrame:frame];
     if (self)
     {
-        [self _seutp];
+        self.imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bg_top"] highlightedImage:[UIImage imageNamed:@"bg_top_pressed"]];
+        [self.imageView setContentMode:UIViewContentModeScaleAspectFill];
+        [self.imageView setFrame:frame];
+        [self addSubview:self.imageView];
     }
     return self;
-}
-#pragma mark - Private
-- (void)_seutp
-{
-    self.imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bg_top"] highlightedImage:[UIImage imageNamed:@"bg_top_pressed"]];
-    [self addSubview:self.imageView];
 }
 
 #pragma mark - CSScrollViewFooterCircleFunctionSubviewProtocol
@@ -38,6 +35,7 @@
 }
 
 - (void)tableViewScrollStop:(UIView<CSFooterCircleViewProtocol> *)view {
+    self.hidden = NO;
     [view showWithViewName:NSStringFromClass([self class])];
 }
 

@@ -13,8 +13,8 @@
 typedef void(^CSClickActionCompletion)(NSString *viewName,UIView<CSFooterCircleSubviewProtocol> *subview);
 
 @interface CSFooterCircleFunctionView : UIView<CSFooterCircleViewProtocol>
-@property (copy, nonatomic) CSClickActionCompletion actionCompletion;
-@property (weak, nonatomic) UITableView *weakTableView;
+@property (copy, nonatomic) CSClickActionCompletion actionCompletion; //点击的回调
+@property (weak, nonatomic) UITableView *weakTableView;     //需要监听的tableview
 
 - (instancetype)initWithSubViews:(NSArray<CSFooterCircleSubviewProtocol> *)subViews;
 

@@ -33,7 +33,7 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -54,15 +54,17 @@
     return cell;
 }
 
-- (NSArray<CSFooterCircleSubviewProtocol> *)setupSubViewsForFooterCircleFunctionView
+- (NSArray *)setupSubViewsForFooterCircleFunctionView
 {
-    CSFotterCircleScrollToTopSubview *scrollToTopSubViews = [[CSFotterCircleScrollToTopSubview alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
+    CSFotterCircleScrollToTopSubview<CSFooterCircleSubviewProtocol> *scrollToTopSubViews = [[CSFotterCircleScrollToTopSubview alloc] initWithFrame:CGRectMake(0, 0, 45, 45)];
     [scrollToTopSubViews setHighlighted:NO];
     
-    CSFotterCircleShowSrcollIndexTypeSubview *srcollIndexTypeSubview = [[CSFotterCircleShowSrcollIndexTypeSubview alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
-    [scrollToTopSubViews setHighlighted:NO];
+    CSFotterCircleShowSrcollIndexTypeSubview<CSFooterCircleSubviewProtocol> *srcollIndexTypeSubview = [[CSFotterCircleShowSrcollIndexTypeSubview alloc] initWithFrame:CGRectMake(0, 0, 45, 45)];
+    [srcollIndexTypeSubview setTotal:50];
+    [srcollIndexTypeSubview setHighlighted:NO];
     
-    return @[scrollToTopSubViews,srcollIndexTypeSubview];
+    NSArray *retArr = @[scrollToTopSubViews,srcollIndexTypeSubview];
+    return retArr;
 }
 
 
@@ -70,11 +72,16 @@
 {
     if (!_footerCircleView)
     {
-        _footerCircleView = [[CSFooterCircleFunctionView alloc] initWithSubViews:[self setupSubViewsForFooterCircleFunctionView]];
+        _footerCircleView = [[CSFooterCircleFunctionView alloc] initWithSubViews:(NSArray <CSFooterCircleSubviewProtocol>*)[self setupSubViewsForFooterCircleFunctionView]];
         _footerCircleView.weakTableView = self.tableView;
         
+        __weak __typeof(self)weakSelf = self;
         _footerCircleView.actionCompletion = ^(NSString *viewName, UIView<CSFooterCircleSubviewProtocol> *subview) {
-            
+            if ([viewName isEqualToString:@"CSFotterCircleScrollToTopSubview"])
+            {
+                __strong __typeof(weakSelf)strongSelf = weakSelf;
+                [strongSelf.tableView setContentOffset:CGPointMake(0, 0) animated:YES];
+            }
         };
     }
     return _footerCircleView;
