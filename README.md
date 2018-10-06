@@ -44,7 +44,7 @@
 }
 ```
 
-2.效果图
+2.效果图  
 ![效果图](https://github.com/KoonChaoSo/CSFooterCircleFunctionView/blob/master/Readme/QQ20180829-223713.gif)
 
 3.需要添加自定义子控件
