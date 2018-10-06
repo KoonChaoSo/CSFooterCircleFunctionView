@@ -42,6 +42,7 @@
     }
     return _footerCircleView;
 }
+```
 
 2. 效果图
 ![效果图](https://github.com/KoonChaoSo/CSFooterCircleFunctionView/blob/master/Readme/QQ20180829-223713.gif)
