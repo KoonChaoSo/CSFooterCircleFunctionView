@@ -6,16 +6,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "CSFooterCircleFunctionView/ViewController.m"
-            timestampString = "557246408.795349"
+            filePath = "CSFooterCircleFunctionView/CSFooterCircleFunctionView/SubViews/CSFotterCircleShowSrcollIndexTypeSubview.m"
+            timestampString = "560498173.023939"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "66"
-            endingLineNumber = "66"
-            landmarkName = "-footerCircleView"
+            startingLineNumber = "54"
+            endingLineNumber = "54"
+            landmarkName = "-tableViewScrollStop:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

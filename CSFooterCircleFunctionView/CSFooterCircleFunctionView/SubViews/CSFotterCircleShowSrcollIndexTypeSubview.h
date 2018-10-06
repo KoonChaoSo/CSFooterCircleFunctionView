@@ -11,4 +11,5 @@
 
 @interface CSFotterCircleShowSrcollIndexTypeSubview : UIView<CSFooterCircleSubviewProtocol>
 - (void)setHighlighted:(BOOL)isHighlighted;
+@property (assign, nonatomic) NSUInteger total;
 @end

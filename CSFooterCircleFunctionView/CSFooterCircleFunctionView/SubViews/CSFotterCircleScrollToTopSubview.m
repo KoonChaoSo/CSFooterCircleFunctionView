@@ -32,64 +32,18 @@
 }
 
 #pragma mark - CSScrollViewFooterCircleFunctionSubviewProtocol
-+ (UIView <CSFooterCircleSubviewProtocol> *)setupSubviewWithSuperView:(UIView *)superview
-{
-    CSFotterCircleScrollToTopSubview *subview = [[CSFotterCircleScrollToTopSubview alloc] initWithFrame:superview.bounds];
-    [subview setHighlighted:NO];
-    return subview;
+- (void)tableViewScrollDown:(UIView<CSFooterCircleViewProtocol> *)view index:(NSInteger)index {
+    if (!self.hidden)
+        [self setHidden:YES];
 }
 
-- (void)hideAnimation:(BOOL)animated completion:(CSCircleFunctionSubviewsAnimationCompletion)completion {
-    if (animated && !self.isAnimating)
-    {
-//        if (self.isAnimating == YES) return;
-        self.hidden = NO;
-        [UIView animateWithDuration:0.3 animations:^{
-            
-            self.alpha = 0;
-            
-        } completion:^(BOOL finished) {
-            self.hidden = YES;
-            if (finished)
-            {
-                completion();
-            }
-        }];
-    }
-    else
-    {
-        if (self.alpha == 0)
-        {
-            self.alpha = 1;
-        }
-        self.hidden = YES;
-    }
+- (void)tableViewScrollStop:(UIView<CSFooterCircleViewProtocol> *)view {
+    [view showWithViewName:NSStringFromClass([self class])];
 }
 
-- (void)showAnimation:(BOOL)animated completion:(CSCircleFunctionSubviewsAnimationCompletion)completion {
-    if (animated && !self.isAnimating)
-    {
-//        if (self.isAnimating == YES) return;
-        self.isAnimating = YES;
-        self.hidden = NO;
-        [UIView animateWithDuration:0.3 animations:^{
-            
-            self.alpha = 1;
-            
-        } completion:^(BOOL finished) {
-            self.hidden = NO;
-            self.isAnimating = NO;
-            if (finished)
-            {
-                completion();
-            }
-        }];
-    }
-    else
-    {
-        self.alpha = 1;
-        self.hidden = NO;
-    }
+- (void)tableViewScrollUp:(UIView<CSFooterCircleViewProtocol> *)view index:(NSInteger)index {
+    if (!self.hidden)
+        [self setHidden:YES];
 }
 
 - (void)setHighlighted:(BOOL)isHighlighted

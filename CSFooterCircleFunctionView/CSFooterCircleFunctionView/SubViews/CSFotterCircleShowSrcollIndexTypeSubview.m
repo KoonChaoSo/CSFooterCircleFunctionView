@@ -36,85 +36,36 @@
         _totlaLabel.backgroundColor = [UIColor clearColor];
         _totlaLabel.font = [UIFont systemFontOfSize:10];
         _totlaLabel.textColor = UIColorFromHex(0x333333);
-        
         [self addSubview:_totlaLabel];
         
     }
     return self;
 }
 
-
-- (void)setHighlighted:(BOOL)isHighlighted
-{
-    [_bgView setHighlighted:isHighlighted];
-}
-
-- (void)hideAnimation:(BOOL)animated completion:(CSCircleFunctionSubviewsAnimationCompletion)completion {
-    if (animated)
-    {
-        self.hidden = NO;
-        [UIView animateWithDuration:0.3 animations:^{
-            
-            self.alpha = 0;
-            
-        } completion:^(BOOL finished) {
-            self.hidden = YES;
-            if (finished)
-            {
-                completion();
-            }
-        }];
-    }
-    else
-    {
-        self.alpha = 0;
-        self.hidden = YES;
-    }
-}
-
-- (void)showAnimation:(BOOL)animated completion:(CSCircleFunctionSubviewsAnimationCompletion)completion {
-    if (animated)
-    {
-        self.hidden = NO;
-        [UIView animateWithDuration:0.3 animations:^{
-            
-            self.alpha = 1;
-            
-        } completion:^(BOOL finished) {
-            self.hidden = NO;
-            if (finished)
-            {
-                completion();
-            }
-        }];
-    }
-    else
-    {
-        self.alpha = 1;
-        self.hidden = NO;
-    }
-}
-
-+ (UIView<CSFooterCircleSubviewProtocol> *)setupSubviewWithSuperView:(UIView *)superview {
-    CSFotterCircleShowSrcollIndexTypeSubview *subview = [[CSFotterCircleShowSrcollIndexTypeSubview alloc] initWithFrame:superview.bounds];
-    [subview setHighlighted:NO];
-    return subview;
-}
-
-- (void)tableViewScrollDown:(CSFooterCircleFunctionView *)view index:(NSInteger)index {
+#pragma mark - CSFooterCircleSubviewProtocol
+- (void)tableViewScrollDown:(UIView<CSFooterCircleViewProtocol> *)view index:(NSInteger)index {
+    [view showWithViewName:NSStringFromClass([self class])];
     
+    NSString *indexStr = [NSString stringWithFormat:@"%ld",(long)index];
+    [self.indexLabel setText:indexStr];
 }
 
-
-- (void)tableViewScrollStop:(CSFooterCircleFunctionView *)view {
-    <#code#>
+- (void)tableViewScrollStop:(UIView<CSFooterCircleViewProtocol> *)view {
+    [view hideWithViewName:NSStringFromClass([self class])];
 }
 
-
-- (void)tableViewScrollUp:(CSFooterCircleFunctionView *)view index:(NSInteger)index {
-    <#code#>
+- (void)tableViewScrollUp:(UIView<CSFooterCircleViewProtocol> *)view index:(NSInteger)index {
+    [view showWithViewName:NSStringFromClass([self class])];
+    
+    NSString *indexStr = [NSString stringWithFormat:@"%ld",(long)index];
+    [self.indexLabel setText:indexStr];
 }
 
-
+#pragma mark - Setter
+- (void)setTotal:(NSUInteger)total
+{
+    _total = total;
+    _totlaLabel.text = [NSString stringWithFormat:@"%lu",(unsigned long)_total];
+}
 
 @end

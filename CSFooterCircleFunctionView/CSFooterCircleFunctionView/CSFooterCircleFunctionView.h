@@ -10,15 +10,15 @@
 #import "CSFooterCircleSubviewProtocol.h"
 #import "UIScrollView+CSFooterCircleFuntionExtension.h"
 
-typedef void(^CSClickActionCompletion)(CSScrollViewFotterCircleFunctionType type,UIView<CSFooterCircleSubviewProtocol> *subview);
-typedef void(^CSShowIndexCompletion)(CSScrollViewFotterCircleFunctionType type,UIView<CSFooterCircleSubviewProtocol> *subview,NSUInteger index);
-@interface CSFooterCircleFunctionView : UIView
+typedef void(^CSClickActionCompletion)(NSString *viewName,UIView<CSFooterCircleSubviewProtocol> *subview);
 
+@interface CSFooterCircleFunctionView : UIView<CSFooterCircleViewProtocol>
 @property (copy, nonatomic) CSClickActionCompletion actionCompletion;
-@property (copy, nonatomic) CSShowIndexCompletion showIndexCompletion;
 @property (weak, nonatomic) UITableView *weakTableView;
 
 - (instancetype)initWithSubViews:(NSArray<CSFooterCircleSubviewProtocol> *)subViews;
+
+#pragma mark - CSFooterCircleViewProtocol
 - (void)showWithViewName:(NSString *)viewName;
 - (void)hide;
 

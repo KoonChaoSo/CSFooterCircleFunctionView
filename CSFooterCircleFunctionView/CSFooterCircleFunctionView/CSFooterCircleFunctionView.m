@@ -21,7 +21,7 @@
 - (void)willMoveToSuperview:(UIView *)newSuperview
 {
     [super willMoveToSuperview:newSuperview];
-    if (newSuperview && ![newSuperview isKindOfClass:[UIScrollView class]]) return;
+    if (newSuperview && ![newSuperview isKindOfClass:[UITableView class]]) return;
     
     if (!newSuperview)
         [self.weakTableView removeObserver:self forKeyPath:@"contentOffset" context:nil];
@@ -37,38 +37,6 @@
     return self;
 }
 
-#pragma mark - Private
-
-- (void)_setup:(NSArray<CSFooterCircleSubviewProtocol> *)subViews
-{
-    //先设置自己
-    self.backgroundColor = [UIColor clearColor];
-    self.userInteractionEnabled = YES;
-    
-    self.customContainerView = [[UIView alloc] initWithFrame:self.bounds];
-    [self.customContainerView setBackgroundColor:[UIColor whiteColor]]; //TODO:修改颜色
-    //圆角
-    self.customContainerView.layer.masksToBounds = YES;
-    self.customContainerView.layer.cornerRadius = 22.5;
-    [self addSubview:self.customContainerView];
-    
-    NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
-    for (UIView<CSFooterCircleSubviewProtocol> *view in subViews)
-    {
-        [self.customContainerView addSubview:view];
-        self.onShowView = NSStringFromClass(view.class);
-        dic[NSStringFromClass(view.class)] = view;
-    }
-    self.circleSubviewDic = dic.copy;
-}
-
-
-- (UIView <CSFooterCircleSubviewProtocol>*)_getSubViewWithClassName:(NSString *)className
-{
-    return self.circleSubviewDic[className];
-}
-
-
 #pragma mark - Public
 - (void)showWithViewName:(NSString *)viewName
 {
@@ -77,6 +45,11 @@
         self.hidden = NO;
     }
     [self bringSubviewToFront:[self _getSubViewWithClassName:viewName]];
+}
+
+- (void)hideWithViewName:(NSString *)viewName
+{
+    [self sendSubviewToBack:[self _getSubViewWithClassName:viewName]];
 }
 
 - (void)hide
@@ -90,11 +63,11 @@
 #pragma mark - Action
 - (void)onClickSubview:(id)sender
 {
-//    UIGestureRecognizer *gestureRecognizer = (UIGestureRecognizer *)sender;
-//    if (self.actionCompletion)
-//    {
-//        self.actionCompletion(self.onShowType, (UIView <CSFooterCircleSubviewProtocol>*)gestureRecognizer.view);
-//    }
+    UIGestureRecognizer *gestureRecognizer = (UIGestureRecognizer *)sender;
+    if (self.actionCompletion)
+    {
+        self.actionCompletion(self.onShowView, (UIView <CSFooterCircleSubviewProtocol>*)gestureRecognizer.view);
+    }
 }
 
 #pragma mark - Touch Event
@@ -136,6 +109,37 @@
     }
 }
 
+#pragma mark - Private
+
+- (void)_setup:(NSArray<CSFooterCircleSubviewProtocol> *)subViews
+{
+    //先设置自己
+    self.backgroundColor = [UIColor clearColor];
+    self.userInteractionEnabled = YES;
+    
+    self.customContainerView = [[UIView alloc] initWithFrame:self.bounds];
+    [self.customContainerView setBackgroundColor:[UIColor whiteColor]]; //TODO:修改颜色
+    //圆角
+    self.customContainerView.layer.masksToBounds = YES;
+    self.customContainerView.layer.cornerRadius = 22.5;
+    [self addSubview:self.customContainerView];
+    
+    NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+    for (UIView<CSFooterCircleSubviewProtocol> *view in subViews)
+    {
+        [self.customContainerView addSubview:view];
+        self.onShowView = NSStringFromClass(view.class);
+        dic[NSStringFromClass(view.class)] = view;
+    }
+    self.circleSubviewDic = dic.copy;
+}
+
+
+- (UIView <CSFooterCircleSubviewProtocol>*)_getSubViewWithClassName:(NSString *)className
+{
+    return self.circleSubviewDic[className];
+}
+
 #pragma mark - KVO
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context
 {
@@ -155,7 +159,7 @@
             {
                 if (lastVisibleRow.row +1 > 0)
                 {
-                    UIView <CSFooterCircleSubviewProtocol>* subView = [self _getSubViewWithType:self.onShowType];
+                    UIView <CSFooterCircleSubviewProtocol>* subView = [self _getSubViewWithClassName:self.onShowView];
                     if ([subView respondsToSelector:@selector(tableViewScrollUp:index:)])
                     {
                         [subView tableViewScrollUp:self index:lastVisibleRow.row + 1];
@@ -173,7 +177,7 @@
             {
                 if (lastVisibleRow.row +1 > 0)
                 {
-                    UIView <CSFooterCircleSubviewProtocol>* subView = [self _getSubViewWithType:self.onShowType];
+                    UIView <CSFooterCircleSubviewProtocol>* subView = [self _getSubViewWithClassName:self.onShowView];
                     if ([subView respondsToSelector:@selector(tableViewScrollDown:index:)])
                     {
                         [subView tableViewScrollDown:self index:lastVisibleRow.row + 1];
@@ -184,8 +188,6 @@
         self.currentY = contentOffset.y;
     }
 }
-
-
 
 #pragma mark - Getter
 - (NSDictionary *)circleSubviewDic
@@ -208,7 +210,7 @@
     __weak __typeof(self)weakSelf = self;
     _weakTableView.stopScrollBlock = ^(UIScrollView *view) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
-        UIView <CSFooterCircleSubviewProtocol>* subView = [strongSelf _getSubViewWithType:strongSelf.onShowType];
+        UIView <CSFooterCircleSubviewProtocol>* subView = [strongSelf _getSubViewWithClassName:strongSelf.onShowView];
         if ([subView respondsToSelector:@selector(tableViewScrollDown:index:)])
         {
             [subView tableViewScrollStop:strongSelf];

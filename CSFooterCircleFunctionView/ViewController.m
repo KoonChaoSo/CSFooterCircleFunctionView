@@ -8,6 +8,10 @@
 
 #import "ViewController.h"
 #import "CSFooterCircleFunctionView.h"
+#import "CSFotterCircleScrollToTopSubview.h"
+#import "CSFotterCircleShowSrcollIndexTypeSubview.h"
+#import "CSFooterCircleSubviewProtocol.h"
+
 @interface ViewController () <UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) CSFooterCircleFunctionView *footerCircleView;
@@ -50,20 +54,27 @@
     return cell;
 }
 
+- (NSArray<CSFooterCircleSubviewProtocol> *)setupSubViewsForFooterCircleFunctionView
+{
+    CSFotterCircleScrollToTopSubview *scrollToTopSubViews = [[CSFotterCircleScrollToTopSubview alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
+    [scrollToTopSubViews setHighlighted:NO];
+    
+    CSFotterCircleShowSrcollIndexTypeSubview *srcollIndexTypeSubview = [[CSFotterCircleShowSrcollIndexTypeSubview alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
+    [scrollToTopSubViews setHighlighted:NO];
+    
+    return @[scrollToTopSubViews,srcollIndexTypeSubview];
+}
+
+
 - (CSFooterCircleFunctionView *)footerCircleView
 {
     if (!_footerCircleView)
     {
-        _footerCircleView = [[CSFooterCircleFunctionView alloc] initWithTypes:@[@(CSScrollViewFotterCircleShowSrcollIndexType),@(CSScrollViewFotterCircleScrolToTopType)]];
+        _footerCircleView = [[CSFooterCircleFunctionView alloc] initWithSubViews:[self setupSubViewsForFooterCircleFunctionView]];
         _footerCircleView.weakTableView = self.tableView;
-        __weak __typeof(self)weakSelf = self;
-        _footerCircleView.showIndexCompletion = ^(CSScrollViewFotterCircleFunctionType type, UIView<CSFooterCircleSubviewProtocol> *subview, NSUInteger index) {
-            __strong __typeof(weakSelf)strongSelf = weakSelf;
-            [strongSelf.footerCircleView showIndexViewWithIndex:[NSString stringWithFormat:@"%lu",(unsigned long)index] total:@"50"];
-        };
-        _footerCircleView.actionCompletion = ^(CSScrollViewFotterCircleFunctionType type, UIView<CSFooterCircleSubviewProtocol> *subview) {
-            __strong __typeof(weakSelf)strongSelf = weakSelf;
-            [strongSelf.tableView setContentOffset:CGPointMake(1, 1) animated:YES];
+        
+        _footerCircleView.actionCompletion = ^(NSString *viewName, UIView<CSFooterCircleSubviewProtocol> *subview) {
+            
         };
     }
     return _footerCircleView;
